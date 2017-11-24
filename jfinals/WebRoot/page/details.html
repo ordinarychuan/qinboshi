@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>大唐套餐详情页</title>
+    <link rel="stylesheet" href="/css/framework7.ios.min.css">
+    <link rel="stylesheet" href="/css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/rem.js"></script>
+</head>
+
+<body>
+    <!-- 套餐详情页 -->
+    <div class=" detail datang">
+        <div class="header">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left">
+                        <a href="#" class="link" onclick="javascript:history.back(-1)">
+                            <img class="left" src="/img/icon-left.png" alt="">
+                        </a>
+                    </div>
+                    <div class="center">#(product.proName)</div>
+                    <div class="right">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="/img/banner1.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/img/banner1.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="img/banner1.png" alt="">
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="introduce">
+            <h2>禽博士
+               <span class="span1">#(product.proName)</span>
+                <span class="span2">（#(product.lilterTitle)）</span>
+            </h2>
+            #for(p :product.proDetail.split('。'))
+            <p>·#(p)</p>
+            #end
+            <span class="sell">已售：#(product.sell)</span>
+
+        </div>
+        <div class="total">
+            <h2>
+                <i>￥</i>#(product.proPrice)</h2>
+            <span>包年价格</span>
+            <span>结束返积分</span>
+            <span>天然富硒</span>
+        </div>
+
+        <div class="datang-box">
+            <img src="/img/bg-datang.png" alt="">
+            <input type="text" placeholder="请输入大唐天下会员id">
+            <button class="check">校验</button>
+        </div>
+
+        <div class="parameter">
+            <div class="title">
+                <span>产品参数</span>
+            </div>
+            <div class="row">
+                <span class="col-50">套餐名称：#(product.proName)</span>
+                <span class="col-50">储存方式：#(product.stockpile)</span>
+                <span class="col-50">产品名称：西泉谷元子蛋(礼盒装)</span>
+                <span class="col-50">硒含量：#(product.seContent)</span>
+                <span class="col-50">产品规格：暂时没有</span>
+                <span class="col-50">净含量：#(product.content)</span>
+            </div>
+        </div>
+        <form action="/order/addOrder" method="post" id="orderform">
+        <input name="order.proId" value="#(product.proId)" type="hidden">
+        <input name="order.member" value="" type="hidden">
+        <div class="parameter">
+            <div class="title">
+                <span>产品配送</span>
+            </div>
+            <div class="row">
+                <span><img src="/img/icon-address.png" alt=""> 配送至</span>
+                <input id="address" type="text" name="order.address" placeholder="">
+                <span class="right">选择地址</span>
+            </div>
+            <div class="row">
+                <span> <img src="/img/icon-time.png" alt=""> 配送日期</span>
+                <input id="calendar-default" type="text" name="order.dates" value="1" placeholder="">
+                <span class="right">选择日期</span>
+            </div>
+            <div class="row">
+                <span> <img src="/img/icon-nums.png" alt=""> 配送数量</span>
+                <input id="nums" type="text" name="order.number" placeholder="">
+                <span class="right">选择数量</span>
+            </div>
+        </div>
+        <div class="button-buy">
+            <span>立刻订购</span>
+        </div>
+        </form>
+    </div>
+	 <script src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/framework7.min.js"></script>
+    <script type="text/javascript" src="/js/my-app.js"></script>
+    <script type="text/javascript">
+    var add='#(add)';
+    var obj =  JSON.parse(add);
+    var arr="";
+    var qqq = [];
+    for(var i=0;i<obj.length;i++){
+    qqq.push(obj[i].area+obj[i].street+obj[i].address)
+    }
+    console.log(qqq);
+    var pickerDevice = myApp.picker({
+    	  input: '#address',
+    	  cols: [
+    	      {
+    	          textAlign: 'center',
+    	          values: qqq,
+    	      }
+    	  ]
+    	});
+    $(document).on("click",".button-buy",function(){
+    	var data=$("#orderform").serialize();
+  		var url=$("#orderform").attr("action");
+  		$.ajax({
+  			type:'post',
+  			url:url,
+  			data:data,
+  			dataType:'json',
+  			success:function(data){
+				var url=data.url;
+				if(url!=null){
+					window.location.href = document.referrer;
+				}else{
+					myApp.alert(data.data);
+				}
+  			}
+  		})
+    	
+    })
+    </script>
+</body>
+
+</html>

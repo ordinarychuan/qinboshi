@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>地址修改</title>
+    <link rel="stylesheet" href="/css/framework7.ios.min.css">
+    <link rel="stylesheet" href="/css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/rem.js"></script>
+</head>
+
+<body>
+    <!-- 套餐详情页 -->
+    <div class=" detail address-change">
+        <div class="header">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left">
+                        <a href="#" class="link" onclick="javascript:history.back(-1)">
+                            <img class="left" src="/img/icon-left.png" alt="">
+                        </a>
+                    </div>
+                    <div class="center">地址修改</div>
+                    <div class="right" id="saveBtn">
+                        保存
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form action="/adds/edit" methon="post" id="saveForm">
+        <input type="hidden" name="addre.addId" >
+        <div class="box">
+            <div class="row">
+                <div class="col-25">
+                    收件人
+                </div>
+                <input class="address_name" type="text" name="addre.linkman" class="col-75" placeholder="收件人">
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    联系电话
+                </div>
+                <input class="address_phone" type="text" name="addre.linkphone" class="col-75" placeholder="联系电话">
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    所在地区
+                </div>
+                <input id="picker-dependent" class="address_address" type="text" name="addre.area" class="col-75" placeholder="选择地址">
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    所在街道
+                </div>
+                <input class="address_phone" type="text" name="addre.street" class="col-75" placeholder="所在街道">
+            </div>
+            <div class="row">
+                <div class="col-100">
+                    <textarea name="addre.address" class="address-details" id="" placeholder="详细地址" ></textarea>
+                </div>
+            </div>
+        </div>
+</form>
+        <div class="box">
+            <span class="delete">删除地址</span>
+        </div>
+    </div>
+
+
+
+
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/framework7.min.js"></script>
+    <script type="text/javascript" src="/js/my-app.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		var add='#(add)';
+    		 var obj =  JSON.parse(add);
+    		 $("input[name='addre.addId']").val(obj.addId);
+    		 $("input[name='addre.linkman']").val(obj.linkman);
+    		 $("input[name='addre.linkphone']").val(obj.linkphone);
+    		 $("input[name='addre.area']").val(obj.area);
+    		 $("input[name='addre.street']").val(obj.street);
+    		 $("textarea[name='addre.address']").val(obj.address);
+    		console.log(obj.area);
+    	})
+    $(document).on("click","#saveBtn",function(){
+    	var data=$("#saveForm").serialize();
+  		var url=$("#saveForm").attr("action");
+  		$.ajax({
+  			type:'post',
+  			url:url,
+  			data:data,
+  			dataType:'json',
+  			success:function(data){
+  				var url=data.url;
+  				if(url!=null){
+  					window.location.href = document.referrer;
+  				}else{
+  					myApp.alert(data.data);
+  				}
+  			}
+  		})
+    	
+    })	
+    	
+    </script>
+</body>
+
+</html>
