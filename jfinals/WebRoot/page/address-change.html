@@ -32,8 +32,8 @@
                 </div>
             </div>
         </div>
-        <form action="/adds/edit" methon="post" id="saveForm">
-        <input type="hidden" name="addre.addId" >
+        <form edit-action="/adds/edit" add-action="/adds/addArea" methon="post" id="saveForm">
+        <input type="hidden" name="addre.addId" id="modelId">
         <div class="box">
             <div class="row">
                 <div class="col-25">
@@ -80,6 +80,7 @@
     <script type="text/javascript">
     	$(document).ready(function(){
     		var add='#(add)';
+    		 if(obj!=null || obj!=undefined){
     		 var obj =  JSON.parse(add);
     		 $("input[name='addre.addId']").val(obj.addId);
     		 $("input[name='addre.linkman']").val(obj.linkman);
@@ -88,10 +89,17 @@
     		 $("input[name='addre.street']").val(obj.street);
     		 $("textarea[name='addre.address']").val(obj.address);
     		console.log(obj.area);
+    		 }
     	})
     $(document).on("click","#saveBtn",function(){
     	var data=$("#saveForm").serialize();
-  		var url=$("#saveForm").attr("action");
+    	var id=$("#modelId").val();
+    	var url;
+    	if(id==null || id==undefined || id==""){
+  		url=$("#saveForm").attr("add-action");
+  		}else{
+  			url=$("#saveForm").attr("edit-action");
+  		}
   		$.ajax({
   			type:'post',
   			url:url,
@@ -102,7 +110,7 @@
   				if(url!=null){
   					window.location.href = document.referrer;
   				}else{
-  					myApp.alert(data.data);
+  					myApp.alert(data.data,"禽博士");
   				}
   			}
   		})

@@ -20,8 +20,10 @@ public class AddreController extends Controller{
 	}
 	public void get() {
 		String addId=getPara();
+		if(addId!=null) {
 		Addre add=Addre.dao.findById(addId);
 		setAttr("add",JSON.toJSONString(add));
+		}
 		render("/page/address-change.html");
 	}
 	public void edit() {
@@ -44,4 +46,24 @@ public class AddreController extends Controller{
 			renderJson(ResponseKit.createError("保存失败"));	
 		}
 	}
+	public void delete() {
+		String addId=getPara();
+		boolean success=Addre.dao.deleteById(addId);
+		if(success) {
+			renderJson(ResponseKit.createSuccess("删除成功", "/adds"));
+		}else {
+			renderJson(ResponseKit.createError("删除失败"));
+		}
+	}
+	public void setStatus() {
+		String addid=getPara();
+		User user=getSessionAttr(Contanst.curent_user);
+		boolean success=AddreService.updateDefau(user.getUserId(), addid);
+		if(success) {
+			renderJson(ResponseKit.createSuccess("修改成功", ""));
+		}else {
+			renderJson(ResponseKit.createError("修改失败"));
+		}
+	}
+	
 }

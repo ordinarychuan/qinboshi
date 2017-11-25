@@ -8,7 +8,7 @@ import com.enyis.model.base.BaseAddre;
 @SuppressWarnings("serial")
 public class Addre extends BaseAddre<Addre> {
 	public static final Addre dao = new Addre().dao();
-
+	public static final String isDefault="1";
 	@Override
 	String tableName() {
 		// TODO Auto-generated method stub

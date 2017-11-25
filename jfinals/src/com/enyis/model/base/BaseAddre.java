@@ -17,7 +17,15 @@ public abstract class BaseAddre<M extends BaseAddre<M>> extends AbstractModel<M>
 	public java.lang.String getAddId() {
 		return getStr("addId");
 	}
+	
+	public M setIsDefault(java.lang.String isDefault) {
+		set("isDefault", isDefault);
+		return (M)this;
+	}
 
+	public java.lang.String getIsDefault() {
+		return getStr("isDefault");
+	}
 	public M setUserId(java.lang.String userId) {
 		set("userId", userId);
 		return (M)this;
